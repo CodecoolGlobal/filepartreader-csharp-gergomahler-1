@@ -27,7 +27,17 @@ namespace Codecool.FilePartReader
         /// <returns>The list of lines ordered in natural order</returns>
         public List<string> GetWordsOrderedAlphabetically()
         {
-            throw new NotImplementedException();
+            List<string> lines = new List<string>();
+            string line = _filePartReader.ReadLines();
+            var words = line.Split(' ');
+
+            foreach (var word in words)
+            {
+                lines.Add(word);
+            }
+
+            lines.Sort();
+            return lines;
         }
 
         /// <summary>
@@ -37,7 +47,20 @@ namespace Codecool.FilePartReader
         /// <returns>The lines containing the sub-string.OrderBy(x =&gt; x, StringComparer.OrdinalIgnoreCase);</returns>
         public List<string> GetWordsContainingSubstring(string subString)
         {
-            throw new NotImplementedException();
+            string line = _filePartReader.ReadLines();
+            List<string> lines = new List<string>();
+
+            var words = line.Split(' ');
+
+            foreach (var word in words)
+            {
+                if (word.Contains(subString))
+                {
+                    lines.Add(word);
+                }
+            }
+
+            return lines;
         }
 
         /// <summary>
@@ -47,7 +70,20 @@ namespace Codecool.FilePartReader
         /// <returns>All the lines which are palindrome as a list</returns>
         public List<string> GetStringsWhichPalindromes()
         {
-            throw new NotImplementedException();
+            string line = _filePartReader.ReadLines();
+            List<string> lines = new List<string>();
+
+            var stringLines = line.Split("\r\n");
+
+            foreach (var stringLine in stringLines)
+            {
+                if (stringLine.SequenceEqual(stringLine.Reverse()))
+                {
+                    lines.Add(stringLine);
+                }
+            }
+
+            return lines;
         }
     }
 }

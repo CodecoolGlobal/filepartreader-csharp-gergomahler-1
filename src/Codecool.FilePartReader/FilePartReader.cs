@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -39,7 +40,18 @@ namespace Codecool.FilePartReader
         /// <param name="toLine">ToLine number of last line we include when reading</param>
         public void Setup(string filePath, int fromLine, int toLine)
         {
-            throw new NotImplementedException();
+            try
+            {
+                FilePath = filePath;
+                FromLine = fromLine;
+                ToLine = toLine;
+            }
+            catch (ArgumentException) when (fromLine > toLine)
+            {
+            }
+            catch (ArgumentException) when (fromLine < 1)
+            {
+            }
         }
 
         /// <summary>
@@ -48,7 +60,7 @@ namespace Codecool.FilePartReader
         /// <returns>The content of the whole file as a String</returns>
         public string Read()
         {
-            throw new NotImplementedException();
+            return File.ReadAllText(FilePath);
         }
 
         /// <summary>
@@ -57,7 +69,15 @@ namespace Codecool.FilePartReader
         /// <returns>The content of file between fromLine and toLine as a string</returns>
         public string ReadLines()
         {
-            throw new NotImplementedException();
+            StringBuilder result = new StringBuilder();
+            string[] lines = File.ReadAllLines(FilePath);
+
+            for (int num = 0; num >= FromLine && num <= ToLine; num++)
+            {
+                result.Append(lines[num]);
+            }
+
+            return result.ToString();
         }
     }
 }
