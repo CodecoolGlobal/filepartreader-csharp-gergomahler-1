@@ -13,7 +13,7 @@ namespace Codecool.FilePartReader
         /// <summary>
         /// Gets file path.
         /// </summary>
-        public string FilePath { get; private set; }
+        public string FilePath { get; private set; } = string.Empty;
 
         /// <summary>
         /// Gets line to start from.
@@ -72,9 +72,9 @@ namespace Codecool.FilePartReader
             StringBuilder result = new StringBuilder();
             string[] lines = File.ReadAllLines(FilePath);
 
-            for (int num = 0; num >= FromLine && num <= ToLine; num++)
+            for (int num = FromLine - 1; num <= ToLine; num++)
             {
-                result.Append(lines[num]);
+                result.Append($"{lines[num]}\r\n");
             }
 
             return result.ToString();
