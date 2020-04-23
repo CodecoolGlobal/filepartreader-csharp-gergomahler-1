@@ -40,17 +40,15 @@ namespace Codecool.FilePartReader
         /// <param name="toLine">ToLine number of last line we include when reading</param>
         public void Setup(string filePath, int fromLine, int toLine)
         {
-            try
+            if (fromLine > toLine || fromLine < 1)
+            {
+                throw new ArgumentException();
+            }
+            else
             {
                 FilePath = filePath;
                 FromLine = fromLine;
                 ToLine = toLine;
-            }
-            catch (ArgumentException) when (fromLine > toLine)
-            {
-            }
-            catch (ArgumentException) when (fromLine < 1)
-            {
             }
         }
 
@@ -74,7 +72,14 @@ namespace Codecool.FilePartReader
 
             for (int num = FromLine - 1; num <= ToLine; num++)
             {
-                result.Append($"{lines[num]}\r\n");
+                if (num < ToLine)
+                {
+                    result.Append($"{lines[num]}\r\n");
+                }
+                else
+                {
+                    result.Append($"{lines[num]}");
+                }
             }
 
             return result.ToString();

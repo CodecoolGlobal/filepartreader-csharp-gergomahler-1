@@ -39,12 +39,13 @@ namespace Codecool.FilePartReader.UnitTests
             // Arrange
             var defaultPath = string.Empty;
             FilePartReader reader = new FilePartReader();
-            reader.Setup("test.txt", 1, 5);
+            reader.Setup("test.txt", 1, 7);
             var analyzer = new FileWordAnalyzer(reader);
             var expected = new List<string>()
             {
                 "kajak",
-                "lol"
+                "lol",
+                "görög"
             };
 
             // Act
@@ -52,6 +53,52 @@ namespace Codecool.FilePartReader.UnitTests
 
             // Assert
             CollectionAssert.AreEqual(expected, palindromes);
+        }
+
+        [Test]
+        public void Setup_FromLineBiggerThanToLine_HasNoReturn()
+        {
+            Assert.Throws<ArgumentException>(() => _filePartReader.Setup("test.txt", 5, 3));
+        }
+
+        [Test]
+        public void Setup_FromLineIsSmallerThanOne_HasNoReturn()
+        {
+            Assert.Throws<ArgumentException>(() => _filePartReader.Setup("test.txt", -1, 3));
+        }
+
+        [Test]
+        public void ReadLines_CreateString_ReturnResult()
+        {
+            _filePartReader.Setup("test.txt", 3, 6);
+            string expected = "Codecool\r\nlol\r\ntest\r\nGeri\r\n";
+
+            Assert.AreEqual(expected, _filePartReader.ReadLines());
+        }
+
+        [Test]
+        public void GetWordsOrderedAlphabetically_SortWords_ReturnSortedList()
+        {
+            _filePartReader.Setup("test.txt", 2, 6);
+            var expected = "Codecool, Geri, kajak, lol, test";
+            var analyzer = new FileWordAnalyzer(_filePartReader);
+
+            var sortedList = analyzer.GetWordsOrderedAlphabetically();
+
+            Assert.AreEqual(expected, sortedList);
+
+        }
+
+        [Test]
+        public void GetWordsContainingSubstring_ContainsSubString_ReturnListOfWords()
+        {
+            _filePartReader.Setup("test.txt", 1, 7);
+            var analyzer = new FileWordAnalyzer(_filePartReader);
+            var expected = "Codecool";
+
+            var wordList = analyzer.GetWordsContainingSubstring("cool");
+
+            Assert.AreEqual(expected, wordList);
         }
 
     }
