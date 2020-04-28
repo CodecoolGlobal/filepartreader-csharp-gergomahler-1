@@ -9,6 +9,8 @@ namespace Codecool.FilePartReader.UnitTests
     /// <summary>
     /// When testing a class you should test only that specific class(unit), not the others
     /// the class may depending on
+    /// 
+    /// See code review comments in pull request.
     /// </summary>
     [TestFixture]
     public class FilePartReaderTest
@@ -19,6 +21,7 @@ namespace Codecool.FilePartReader.UnitTests
         public void Setup()
         {
             _filePartReader = new FilePartReader();
+            // comment?
             //_filePartReader.Setup();
         }
 
@@ -64,6 +67,7 @@ namespace Codecool.FilePartReader.UnitTests
         [Test]
         public void Setup_FromLineIsSmallerThanOne_HasNoReturn()
         {
+            // Arrange? Act?
             Assert.Throws<ArgumentException>(() => _filePartReader.Setup("test.txt", -1, 3));
         }
 
@@ -79,6 +83,7 @@ namespace Codecool.FilePartReader.UnitTests
         [Test]
         public void GetWordsOrderedAlphabetically_SortWords_ReturnSortedList()
         {
+            // This is an Analyzer test not FilePartReader test -> should be in separated test file
             _filePartReader.Setup("test.txt", 2, 6);
             var expected = "Codecool, Geri, kajak, lol, test";
             var analyzer = new FileWordAnalyzer(_filePartReader);
@@ -92,6 +97,7 @@ namespace Codecool.FilePartReader.UnitTests
         [Test]
         public void GetWordsContainingSubstring_ContainsSubString_ReturnListOfWords()
         {
+            // same as above
             _filePartReader.Setup("test.txt", 1, 7);
             var analyzer = new FileWordAnalyzer(_filePartReader);
             var expected = "Codecool";
